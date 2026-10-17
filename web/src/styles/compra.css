@@ -1,0 +1,19 @@
+/* Compra simulada de un lote: botón en la ficha y diálogo de pago (MVP, sin cobro real). */
+
+.comprar-lote { align-self: center; }
+
+.compra-fondo { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 16px; background: rgba(28,43,34,.55); }
+.compra-dialogo { width: 100%; max-width: 520px; max-height: calc(100vh - 32px); overflow-y: auto; background: var(--paper); border: 1px solid var(--line); border-radius: 18px; padding: 26px; box-shadow: 0 24px 65px rgba(33,77,53,.25); }
+.compra-dialogo h2 { font-size: 1.7rem; margin: 6px 0 8px; }
+.compra-campo { display: block; margin-top: 13px; }
+.compra-campo input,.compra-campo select { background: white; }
+.compra-acciones { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+.compra-resumen { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 18px 0 0; }
+.compra-resumen dt { color: var(--muted); font-size: .78rem; }
+.compra-resumen dd { margin: 2px 0 0; font-weight: 800; overflow-wrap: anywhere; }
+
+@media (max-width: 520px) {
+  .compra-dialogo { padding: 20px; }
+  .compra-resumen { grid-template-columns: 1fr; }
+  .compra-acciones .button { flex: 1 1 auto; }
+}

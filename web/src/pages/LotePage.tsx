@@ -1,6 +1,8 @@
+import { useCallback, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { EstadoDatos } from "../components/EstadoDatos";
 import { Layout } from "../components/Layout";
+import { CompraLote } from "../components/lote/CompraLote";
 import { ImagenLote } from "../components/lote/ImagenLote";
 import { formatDate, moneda, numero } from "../lib/format";
 import { buscarLote, pesoTotal, rangoPesoLote, tipoDeBovino, valorLote, visiblesPara } from "../lib/ofertas";
@@ -10,6 +12,8 @@ import { useLotes } from "../lib/senasa";
 export function LotePage() {
   const { loteId = "" } = useParams();
   const { lotes, error, recargar } = useLotes();
+  const [comprando, setComprando] = useState(false);
+  const cerrarCompra = useCallback(() => setComprando(false), []);
   const vendedor = esVendedor();
   if (!lotes) return <EstadoDatos error={error} />;
   const lote = buscarLote(visiblesPara(lotes, vendedor), loteId);
@@ -50,7 +54,14 @@ export function LotePage() {
             <dd>{moneda.format(valorLote(lote))}</dd>
           </div>
         </dl>
+        {!vendedor && (
+          <button className="button button-primary comprar-lote" type="button" onClick={() => setComprando(true)}>
+            Comprar lote
+          </button>
+        )}
       </header>
+
+      {comprando && <CompraLote lote={lote} onCerrar={cerrarCompra} />}
 
       {lote.imagenUrl && <img className="lote-imagen" src={lote.imagenUrl} alt={`Foto del lote ${lote.titulo}`} />}
       {vendedor && <ImagenLote lote={lote} onSubida={recargar} />}
